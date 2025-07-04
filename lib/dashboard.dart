@@ -127,11 +127,100 @@ class Dashboard extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-
+          const SizedBox(height: 16),
+          appointmentCard(
+            imageUrl: 'assets/staff2.jpg',
+            name: 'George Adiz',
+            service: 'Cleansing Facial',
+            time: '10:00 AM',
+            duration: '60 min',
+          ),
+          appointmentCard(
+            imageUrl: 'assets/staff1.jpg',
+            name: 'Daniel De Asis',
+            service: "Glutathione IV Drip",
+            time: '11:00 AM',
+            duration: '30 min',
+          ),
         ],
       ),
     );
+  }
 
+  // 📅 Appointment Card Design
+  static Widget appointmentCard({
+    required String imageUrl,
+    required String name,
+    required String service,
+    required String time,
+    required String duration,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.pink.shade50,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundImage: AssetImage(imageUrl),
+            radius: 24,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  service,
+                  style: const TextStyle(
+                    color: Colors.black54,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Row(
+                children: [
+                  const Icon(
+                    Icons.access_time_rounded,
+                    color: Colors.pink,
+                    size: 16,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    time,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Text(
+                duration,
+                style: const TextStyle(fontSize: 12),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
+
 
