@@ -73,7 +73,8 @@ class FeaturedServicesSection extends StatelessWidget {
               itemBuilder: (context, index) {
                 final data = cardData[index];
                 return Container(
-                  margin: EdgeInsets.zero,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: Colors.pink[100]!),
@@ -866,6 +867,7 @@ class _OurServicesSectionState extends State<OurServicesSection> {
       'duration': 60,
       'price': 85.00,
       'popular': true,
+      'available': true,
     },
     {
       'image': 'assets/acnetherapy.jpg',
@@ -876,6 +878,7 @@ class _OurServicesSectionState extends State<OurServicesSection> {
       'duration': 45,
       'price': 120.00,
       'popular': false,
+      'available': true,
     },
     {
       'image': 'assets/acnespot.jpg',
@@ -886,8 +889,32 @@ class _OurServicesSectionState extends State<OurServicesSection> {
       'duration': 75,
       'price': 95.00,
       'popular': false,
+      'available': true,
     },
-    // Add more services as needed
+    // New service 1
+    {
+      'image': 'assets/microdermabrasion.jpg',
+      'title': 'Hydrating Skin Therapy',
+      'category': 'Therapy',
+      'description':
+          'Intense moisture treatment designed to restore hydration to dry, dehydrated skin using advanced hyaluronic acid...',
+      'duration': 60,
+      'price': 110.00,
+      'popular': true,
+      'available': true,
+    },
+    // New service 2 (unavailable)
+    {
+      'image': 'assets/laserhairremoval.jpg',
+      'title': 'LED Light Therapy',
+      'category': 'Therapy',
+      'description':
+          'Non-invasive treatment using different wavelengths of light to target various skin concerns from anti-aging to acne.',
+      'duration': 30,
+      'price': 65.00,
+      'popular': false,
+      'available': false,
+    },
   ];
 
   @override
@@ -937,14 +964,15 @@ class _OurServicesSectionState extends State<OurServicesSection> {
           ),
           const SizedBox(height: 16),
           SizedBox(
-            height: 390,
+            height: 420,
             child: PageView.builder(
               itemCount: filteredServices.length,
               controller: PageController(viewportFraction: 0.95),
               itemBuilder: (context, index) {
                 final service = filteredServices[index];
                 return Container(
-                  margin: EdgeInsets.zero,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: Colors.pink[100]!),
@@ -958,6 +986,7 @@ class _OurServicesSectionState extends State<OurServicesSection> {
                     ],
                   ),
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ClipRRect(
@@ -990,6 +1019,27 @@ class _OurServicesSectionState extends State<OurServicesSection> {
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14),
+                                  ),
+                                ),
+                              ),
+                            if (service['available'] == false)
+                              Positioned.fill(
+                                child: Center(
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 18, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.pink,
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: const Text(
+                                      'Currently Unavailable',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -1073,15 +1123,17 @@ class _OurServicesSectionState extends State<OurServicesSection> {
                                         fontSize: 16),
                                     elevation: 0,
                                   ),
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            BookAppointmentPage(
-                                                serviceData: service),
-                                      ),
-                                    );
-                                  },
+                                  onPressed: service['available'] == false
+                                      ? null
+                                      : () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  BookAppointmentPage(
+                                                      serviceData: service),
+                                            ),
+                                          );
+                                        },
                                   child: const Text('Book Now'),
                                 ),
                               ),
